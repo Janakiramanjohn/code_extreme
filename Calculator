@@ -1,0 +1,113 @@
+//sample input  
+//12+56*23-45-5*89/12*56+23
+
+
+
+import java.util.Scanner;
+public class NumCalc {
+     public String get(String input)
+ {
+ 
+     String str=input; 
+ String sub="";
+ char op[]=new char[]{'%','/','*','+','-'};
+ for(int i=0;i<str.length();i++)
+ {
+ if(((str.charAt(i)>=48)&&(str.charAt(i)<58))||((str.charAt(i)=='-')||(str.charAt(i)=='%')||(str.charAt(i)=='*')||(str.charAt(i)=='+')||(str.charAt(i)=='/')||(str.charAt(i)=='.')))
+ {
+     sub+=str.charAt(i);
+ }
+ }
+     System.out.println("Your Input is here:  "+sub);
+    String presubstr="", nextsubstr="", pretemp="",nexttemp="",rtn="";
+ for(int i=0;i<op.length;i++)
+ {
+  for(int j=0;j<sub.length();j++ )
+  {
+      if(op[i]==sub.charAt(j))
+      {
+          for(int k=j+1;k<sub.length();k++)
+          {
+          if((sub.charAt(k)>=48)&&(sub.charAt(k)<58)||(sub.charAt(k)=='.'))
+            {    
+                nexttemp+=sub.charAt(k);
+                      continue;
+            }
+          else{
+              nextsubstr+=sub.substring(k, sub.length());
+          break;
+          }
+          }
+          for(int l=j-1;l>=0;l--)
+          {
+          if((sub.charAt(l)>=48)&&(sub.charAt(l)<58)||(sub.charAt(l)=='.'))
+            {
+                      pretemp+=sub.charAt(l);
+                      continue;
+            }
+          else{
+          if(l>0)
+              presubstr+=sub.substring(0, l+1);
+          break;
+          }
+          }
+           pretemp=new StringBuffer(pretemp).reverse().toString();
+         rtn= cal(op[i],pretemp,nexttemp);
+           sub=presubstr+rtn+nextsubstr;
+           presubstr="";nextsubstr="";pretemp="";nexttemp="";
+          j=0;
+      }
+  }
+ }
+//     System.out.println("Total:  "+sub);
+ return sub;
+ }
+  public String cal(char optr,String pre,String nxt)
+ {
+ double a=0,b=0;double c=0; String rslt="";
+ a=Double.parseDouble(pre);
+ b=Double.parseDouble(nxt);
+ switch(optr)
+ {
+     case '/':
+     {
+         c=a/b;
+         rslt=""+c;
+         break;
+     }  
+     case '*':
+     {
+         c=a*b;
+         rslt=""+c;
+         break;
+     }  
+     case '+':
+     {
+         c=a+b;
+         rslt=""+c;
+         break;
+     }  
+     case '-':
+     {
+         c=a-b;
+         rslt=""+c;
+         break;
+     }  
+     case '%':
+     {
+         c=a%b;
+          rslt=""+c;
+         break;
+     }
+ }
+ return rslt;
+ }
+    public static void main(String[] args) {
+         NumCalc nc=new NumCalc();
+         Scanner sc=new Scanner(System.in);
+     System.out.println("Enter your String ");
+     String pass=sc.nextLine();
+        System.out.println(nc.get(pass));
+    }
+}
+ 
